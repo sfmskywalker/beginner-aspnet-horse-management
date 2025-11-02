@@ -144,12 +144,12 @@
           <p><span class="kicker">Goal:</span> Make the app look professional with minimal effort.</p>
           <p><a href="https://mudblazor.com/" target="_blank">MudBlazor</a> provides ready-made components.</p>
           <ol>
-            <li>In your <strong>Command Prompt</strong>, inside the project folder, run:</li>
+            <li>In Visual Studio, right-click your project <code>HorseManager</code> in <strong>Solution Explorer</strong> → select <strong>Manage NuGet Packages</strong>.</li>
+            <li>Click the <strong>Browse</strong> tab, search for <code>MudBlazor</code>, and click <strong>Install</strong>.</li>
+            <li>Repeat for <code>MudBlazor.Services</code>.</li>
           </ol>
-<pre><code class="language-bash">dotnet add package MudBlazor
-dotnet add package MudBlazor.Services
-</code></pre>
-          <ol start="2">
+          <div class="tip" style="margin-top:8px">Prefer the command line? Open <em>View → Terminal</em> and run: <code>dotnet add package MudBlazor</code> then <code>dotnet add package MudBlazor.Services</code></div>
+          <ol start="4">
             <li>In <code>Program.cs</code>, register MudBlazor services:</li>
           </ol>
 <pre><code class="language-csharp">using MudBlazor.Services; // add at the top
@@ -164,7 +164,7 @@ builder.Services.AddMudServices();
 
 var app = builder.Build();
 </code></pre>
-          <ol start="3">
+          <ol start="5">
             <li>Open <code>Shared/MainLayout.razor</code> and replace its content with:</li>
           </ol>
 <pre><code class="language-razor">@using MudBlazor
@@ -211,19 +211,21 @@ public class Horse
         <section id="db" class="card">
           <div class="step"><div class="num">4</div><h2>Connect a database with EF Core + SQLite</h2></div>
           <p><span class="kicker">Goal:</span> Save horses so they persist after you close the app.</p>
-          <p>We’ll use <a href="https://learn.microsoft.com/ef/core/" target="_blank">Entity Framework Core</a> (an ORM) and <a href="https://www.sqlite.org/index.html" target="_blank">SQLite</a> (a simple embedded database).</p>
+          <p>We'll use <a href="https://learn.microsoft.com/ef/core/" target="_blank">Entity Framework Core</a> (an ORM) and <a href="https://www.sqlite.org/index.html" target="_blank">SQLite</a> (a simple embedded database).</p>
           <ol>
-            <li>Install the EF Core packages (in Command Prompt):</li>
-          </ol>
-<pre><code class="language-bash">dotnet add package Microsoft.EntityFrameworkCore.Sqlite
-dotnet add package Microsoft.EntityFrameworkCore.Design
-</code></pre>
-          <ol start="2">
-            <li>(If needed) install the EF CLI:</li>
+            <li>In Visual Studio, right-click your project in <strong>Solution Explorer</strong> → <strong>Manage NuGet Packages</strong>.</li>
+            <li>Search for and install:
+              <ul>
+                <li><code>Microsoft.EntityFrameworkCore.Sqlite</code></li>
+                <li><code>Microsoft.EntityFrameworkCore.Design</code></li>
+              </ul>
+            </li>
+            <li>Open <strong>View → Terminal</strong> in Visual Studio and install the EF CLI tool:</li>
           </ol>
 <pre><code class="language-bash">dotnet tool install --global dotnet-ef
 </code></pre>
-          <ol start="3">
+          <div class="tip" style="margin-top:8px">The EF CLI tool is used from the command line to create database migrations and updates.</div>
+          <ol start="4">
             <li>Create <code>Data/AppDbContext.cs</code>:</li>
           </ol>
 <pre><code class="language-csharp">using HorseManager.Models;
@@ -236,7 +238,7 @@ public class AppDbContext(DbContextOptions&lt;AppDbContext&gt; options) : DbCont
     public DbSet&lt;Horse&gt; Horses =&gt; Set&lt;Horse&gt;();
 }
 </code></pre>
-          <ol start="4">
+          <ol start="5">
             <li>Register the database in <code>Program.cs</code>:</li>
           </ol>
 <pre><code class="language-csharp">using HorseManager.Data; // add at the top
@@ -252,8 +254,8 @@ builder.Services.AddDbContext&lt;AppDbContext&gt;(options =&gt;
 
 var app = builder.Build();
 </code></pre>
-          <ol start="5">
-            <li>Create the database schema with migrations:</li>
+          <ol start="6">
+            <li>Create the database schema with migrations (in <strong>View → Terminal</strong>):</li>
           </ol>
 <pre><code class="language-bash">dotnet ef migrations add InitialCreate
 dotnet ef database update
