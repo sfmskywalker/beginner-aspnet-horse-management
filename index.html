@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>🐴 Horse Manager — A Friendly Beginner Tutorial (Blazor Server, EF Core, SQLite)</title>
+  <meta name="description" content="Hands-on, beginner-friendly tutorial to build a Horse Manager CRUD app using .NET 9, Blazor Server, EF Core, SQLite, and MudBlazor. Step-by-step with tiny wins." />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Prism for code highlighting -->
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.min.css" rel="stylesheet" />
+  <style>
+    :root{
+      --bg: #fff8f9;
+      --card: #ffffff;
+      --muted: #444;
+      --text: #222;
+      --accent: #ff69b4;      /* friendly pink */
+      --accent-2:#ffaec9;     /* soft pink */
+      --danger:#ff4d4d;       /* red for warnings */
+      --shadow: 0 5px 20px rgba(0,0,0,.08);
+      --radius: 12px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;line-height:1.6}
+    a{color:var(--accent);text-decoration:none}
+    a:hover{text-decoration:underline}
+    .container{max-width:1100px;margin:0 auto;padding:48px 20px}
+    header.hero{display:grid;gap:18px;align-items:center;margin-bottom:28px;text-align:center}
+    .badge{display:inline-block;padding:.35rem .6rem;border:1px solid #ffcce0;border-radius:999px;background:#ffeaf3;color:#d63384;font-size:.8rem}
+    h1{font-size:clamp(1.8rem,3.5vw,3rem);line-height:1.1;margin:0;color:#c2185b}
+    .lead{color:#555;max-width:75ch;margin:0 auto}
+    .cta-row{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:6px}
+    .btn{background:var(--accent);color:white;border:none;border-radius:12px;padding:12px 16px;font-weight:600;cursor:pointer;box-shadow:var(--shadow)}
+    .btn.secondary{background:transparent;border:2px solid var(--accent);color:var(--accent)}
+    .grid{display:grid;gap:18px}
+    @media(min-width:900px){.grid{grid-template-columns:260px 1fr}}
+    nav.toc{position:sticky;top:20px;align-self:start;background:#fff;border:1px solid #ffd6e8;border-radius:var(--radius);padding:16px;box-shadow:var(--shadow)}
+    nav.toc h3{margin:0 0 8px 0;font-size:1rem;color:#c2185b}
+    nav.toc a{display:block;padding:6px 8px;border-radius:8px;color:#c2185b}
+    nav.toc a:hover{background:#ffeaf3}
+    section.card{background:var(--card);border:1px solid #ffd6e8;border-radius:var(--radius);box-shadow:var(--shadow);padding:22px}
+    section.card h2{margin-top:0;color:#c2185b}
+    .tip,.note,.warn{border-left:4px solid var(--accent);background:#fff0f5;padding:12px 14px;border-radius:10px}
+    .warn{border-left-color:var(--danger);background:#ffe5e5}
+    .success{border-left-color:var(--accent-2);background:#fffafc}
+    code, pre{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace}
+    pre{background:#f9f3f4;border:1px solid #ffe6f0;border-radius:14px;padding:16px;overflow:auto}
+    .kicker{color:#c2185b;font-weight:600;letter-spacing:.08em;text-transform:uppercase;font-size:.75rem}
+    .step{display:flex;gap:12px;align-items:flex-start}
+    .step .num{flex:0 0 36px;height:36px;border-radius:10px;background:#ffe6f0;border:1px solid #ffb6c1;display:grid;place-items:center;font-weight:700;color:#c2185b}
+    footer{opacity:.8;margin-top:40px;text-align:center}
+    .kbd{display:inline-block;border:1px solid #ffcce0;background:#fffafc;border-bottom-width:3px;border-radius:6px;padding:.05rem .35rem;font-family:ui-monospace,monospace}
+    .inline-badge{font-size:.8rem;padding:.2rem .5rem;border:1px solid #ffcce0;border-radius:999px;color:#c2185b}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="hero">
+      <span class="badge">Beginner Friendly • Hands‑On • Tiny Wins</span>
+      <h1>🐴 Horse Manager — Build a Real CRUD App with <span class="inline-badge">.NET 9</span>, <span class="inline-badge">Blazor Server</span> & <span class="inline-badge">EF Core + SQLite</span></h1>
+      <p class="lead">Welcome! You’ll create a useful web app that tracks horses (add, edit, list, delete). No prior coding experience needed. Follow small steps. See something working after each one. Celebrate tiny wins 🎉</p>
+      <div class="cta-row">
+        <a class="btn" href="#start">Start the tutorial</a>
+        <a class="btn secondary" href="#toc">Jump to any step</a>
+      </div>
+    </header>
+
+    <div class="grid">
+      <nav id="toc" class="toc">
+        <h3>Table of contents</h3>
+        <a href="#prereqs">0. Install & set up</a>
+        <a href="#cmd">0.5 Using the Command Prompt (Windows)</a>
+        <a href="#hello">1. Make it yours</a>
+        <a href="#mudblazor">2. Add MudBlazor (nice UI)</a>
+        <a href="#model">3. Create the Horse model</a>
+        <a href="#db">4. Database with EF Core + SQLite</a>
+        <a href="#list">5. List horses</a>
+        <a href="#create">6. Add horses</a>
+        <a href="#edit-delete">7. Edit & delete</a>
+        <a href="#details">8. Details page (optional)</a>
+        <a href="#polish">9. Polish & celebrate</a>
+        <a href="#extras">Extras</a>
+        <a href="#vercel">Deploy this tutorial site to Vercel</a>
+      </nav>
+
+      <main id="start">
+
+        <!-- STEP 0 -->
+        <section id="prereqs" class="card">
+          <div class="step"><div class="num">0</div><h2>Install & set up</h2></div>
+          <p><span class="kicker">Goal:</span> Be ready to write and run .NET code.</p>
+          <ol>
+            <li>
+              Download and install <a href="https://visualstudio.microsoft.com/vs/community/" target="_blank">Visual Studio 2022 (Community Edition)</a> with the <a href="https://learn.microsoft.com/aspnet/core/?view=aspnetcore-9.0" target="_blank">ASP.NET Core</a> and web development workload and the <a href="https://dotnet.microsoft.com/download/dotnet/9.0" target="_blank">.NET 9 SDK</a>.
+              <div class="note" style="margin-top:8px">Prefer lightweight? You can use <a href="https://code.visualstudio.com/" target="_blank">VS Code</a> + <a href="https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csdevkit" target="_blank">C# Dev Kit</a>, but this guide assumes Visual Studio for the smoothest first experience.</div>
+            </li>
+            <li>
+              In Visual Studio: <span class="kbd">Create a new project</span> → choose <strong>Blazor Server App</strong>. Learn about <a href="https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor" target="_blank">Blazor</a> and what <a href="https://learn.microsoft.com/aspnet/core/blazor/?view=aspnetcore-9.0" target="_blank">Blazor Server</a> means.
+              <ul>
+                <li>Project name: <code>HorseManager</code></li>
+                <li>Framework: <code>.NET 9</code></li>
+                <li>Authentication: <code>None</code></li>
+              </ul>
+            </li>
+            <li>Click <span class="kbd">▶ Run</span>. You’ll see the default Blazor app.
+              <div class="success" style="margin-top:8px"><strong>Tiny win:</strong> You ran your first web app!</div>
+            </li>
+          </ol>
+          <details>
+            <summary>What did you just use?</summary>
+            <p><strong><a href="https://learn.microsoft.com/aspnet/core/?view=aspnetcore-9.0" target="_blank">ASP.NET Core</a></strong> is a web framework for building apps with .NET. <strong>Blazor Server</strong> lets you write UI using C# and Razor (HTML + C#). It runs on the server and updates the page live over SignalR.</p>
+          </details>
+        </section>
+
+        <!-- STEP 0.5: CMD INTRO -->
+        <section id="cmd" class="card">
+          <div class="step"><div class="num">0.5</div><h2>Using the Command Prompt (Windows)</h2></div>
+          <p><span class="kicker">Goal:</span> Be comfortable running simple commands you’ll copy from this tutorial.</p>
+          <ol>
+            <li>Press <span class="kbd">⊞ Win</span>, type <strong>cmd</strong>, and press <span class="kbd">Enter</span> to open <strong>Command Prompt</strong>.</li>
+            <li>Use <code>cd</code> to change folders. Example:<br><code>cd C:\Users\YourName\source\repos\HorseManager</code></li>
+            <li>When the tutorial says to run a command like <code>dotnet add package ...</code>, paste it into Command Prompt and press <span class="kbd">Enter</span>.</li>
+          </ol>
+          <p class="tip">You can also open a terminal inside Visual Studio: menu <em>View → Terminal</em>.</p>
+        </section>
+
+        <!-- STEP 1 -->
+        <section id="hello" class="card">
+          <div class="step"><div class="num">1</div><h2>Make it yours</h2></div>
+          <p><span class="kicker">Goal:</span> Change the home page text so it feels like <em>your</em> app.</p>
+          <ol>
+            <li>Open <code>Pages/Index.razor</code> and replace its content with:</li>
+          </ol>
+<pre><code class="language-razor">&lt;h1&gt;🐴 Welcome to Horse Manager!&lt;/h1&gt;
+&lt;p&gt;This app helps you keep track of your horses.&lt;/p&gt;
+</code></pre>
+          <p>Run it. You should see your text and emoji. ✨</p>
+        </section>
+
+        <!-- STEP 2 -->
+        <section id="mudblazor" class="card">
+          <div class="step"><div class="num">2</div><h2>Add MudBlazor for a modern UI</h2></div>
+          <p><span class="kicker">Goal:</span> Make the app look professional with minimal effort.</p>
+          <p><a href="https://mudblazor.com/" target="_blank">MudBlazor</a> provides ready-made components.</p>
+          <ol>
+            <li>In your <strong>Command Prompt</strong>, inside the project folder, run:</li>
+          </ol>
+<pre><code class="language-bash">dotnet add package MudBlazor
+dotnet add package MudBlazor.Services
+</code></pre>
+          <ol start="2">
+            <li>In <code>Program.cs</code>, register MudBlazor services:</li>
+          </ol>
+<pre><code class="language-csharp">using MudBlazor.Services; // add at the top
+
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddRazorPages();
+builder.Services.AddServerSideBlazor();
+
+// MudBlazor
+builder.Services.AddMudServices();
+
+var app = builder.Build();
+</code></pre>
+          <ol start="3">
+            <li>Open <code>Shared/MainLayout.razor</code> and replace its content with:</li>
+          </ol>
+<pre><code class="language-razor">@using MudBlazor
+@inherits LayoutComponentBase
+
+&lt;MudThemeProvider /&gt;
+&lt;MudDialogProvider /&gt;
+&lt;MudSnackbarProvider /&gt;
+
+&lt;MudLayout&gt;
+    &lt;MudAppBar Color="Color.Primary" Elevation="0" Dense="true"&gt;
+        &lt;MudText Typo="Typo.h6"&gt;Horse Manager&lt;/MudText&gt;
+    &lt;/MudAppBar&gt;
+
+    &lt;MudMainContent Class="pa-6"&gt;
+        @Body
+    &lt;/MudMainContent&gt;
+&lt;/MudLayout&gt;
+</code></pre>
+          <p>Run again. The app now has a polished shell. 🎨</p>
+        </section>
+
+        <!-- STEP 3 -->
+        <section id="model" class="card">
+          <div class="step"><div class="num">3</div><h2>Create the <code>Horse</code> model</h2></div>
+          <p><span class="kicker">Goal:</span> Define what a horse looks like in code.</p>
+          <ol>
+            <li>Create a folder <code>Models</code> → Add file <code>Horse.cs</code>:</li>
+          </ol>
+<pre><code class="language-csharp">namespace HorseManager.Models;
+
+public class Horse
+{
+    public int Id { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public int Age { get; set; }
+    public string Breed { get; set; } = string.Empty;
+}
+</code></pre>
+          <p><em>Id</em> will be the primary key in the database. The rest are the properties we’ll show and edit.</p>
+        </section>
+
+        <!-- STEP 4 -->
+        <section id="db" class="card">
+          <div class="step"><div class="num">4</div><h2>Connect a database with EF Core + SQLite</h2></div>
+          <p><span class="kicker">Goal:</span> Save horses so they persist after you close the app.</p>
+          <p>We’ll use <a href="https://learn.microsoft.com/ef/core/" target="_blank">Entity Framework Core</a> (an ORM) and <a href="https://www.sqlite.org/index.html" target="_blank">SQLite</a> (a simple embedded database).</p>
+          <ol>
+            <li>Install the EF Core packages (in Command Prompt):</li>
+          </ol>
+<pre><code class="language-bash">dotnet add package Microsoft.EntityFrameworkCore.Sqlite
+dotnet add package Microsoft.EntityFrameworkCore.Design
+</code></pre>
+          <ol start="2">
+            <li>(If needed) install the EF CLI:</li>
+          </ol>
+<pre><code class="language-bash">dotnet tool install --global dotnet-ef
+</code></pre>
+          <ol start="3">
+            <li>Create <code>Data/AppDbContext.cs</code>:</li>
+          </ol>
+<pre><code class="language-csharp">using HorseManager.Models;
+using Microsoft.EntityFrameworkCore;
+
+namespace HorseManager.Data;
+
+public class AppDbContext(DbContextOptions&lt;AppDbContext&gt; options) : DbContext(options)
+{
+    public DbSet&lt;Horse&gt; Horses =&gt; Set&lt;Horse&gt;();
+}
+</code></pre>
+          <ol start="4">
+            <li>Register the database in <code>Program.cs</code>:</li>
+          </ol>
+<pre><code class="language-csharp">using HorseManager.Data; // add at the top
+using Microsoft.EntityFrameworkCore; // add at the top
+
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddRazorPages();
+builder.Services.AddServerSideBlazor();
+
+builder.Services.AddDbContext&lt;AppDbContext&gt;(options =&gt;
+    options.UseSqlite("Data Source=horses.db"));
+
+var app = builder.Build();
+</code></pre>
+          <ol start="5">
+            <li>Create the database schema with migrations:</li>
+          </ol>
+<pre><code class="language-bash">dotnet ef migrations add InitialCreate
+dotnet ef database update
+</code></pre>
+          <div class="success"><strong>Tiny win:</strong> You now have a real database file: <code>horses.db</code>.</div>
+          <details>
+            <summary>What’s a migration?</summary>
+            <p>It’s a versioned change to your database structure. EF Core generates code to create (or update) tables based on your models. See <a href="https://learn.microsoft.com/ef/core/managing-schemas/migrations/?tabs=dotnet-core-cli" target="_blank">EF Core Migrations</a>.</p>
+          </details>
+        </section>
+
+        <!-- STEP 5 -->
+        <section id="list" class="card">
+          <div class="step"><div class="num">5</div><h2>List horses</h2></div>
+          <p><span class="kicker">Goal:</span> Show horses in a nice table.</p>
+          <ol>
+            <li>Add a page: <code>Pages/Horses.razor</code></li>
+          </ol>
+<pre><code class="language-razor">@page "/horses"
+@using HorseManager.Models
+@inject HorseManager.Data.AppDbContext Db
+@using MudBlazor
+
+&lt;MudStack Spacing="2"&gt;
+    &lt;MudText Typo="Typo.h5"&gt;My Horses&lt;/MudText&gt;
+
+    &lt;MudTable Items="_horses" Hover="true" Dense="true"&gt;
+        &lt;HeaderContent&gt;
+            &lt;MudTh&gt;Name&lt;/MudTh&gt;
+            &lt;MudTh&gt;Age&lt;/MudTh&gt;
+            &lt;MudTh&gt;Breed&lt;/MudTh&gt;
+            &lt;MudTh&gt;&lt;/MudTh&gt;
+        &lt;/HeaderContent&gt;
+        &lt;RowTemplate Context="horse"&gt;
+            &lt;MudTd&gt;@horse.Name&lt;/MudTd&gt;
+            &lt;MudTd&gt;@horse.Age&lt;/MudTd&gt;
+            &lt;MudTd&gt;@horse.Breed&lt;/MudTd&gt;
+            &lt;MudTd Class="text-right"&gt;
+                &lt;MudButton Variant="Variant.Text" Size="Size.Small" OnClick="() =&gt; EditHorse(horse)" StartIcon="@Icons.Material.Filled.Edit"&gt;Edit&lt;/MudButton&gt;
+                &lt;MudButton Variant="Variant.Text" Color="Color.Error" Size="Size.Small" OnClick="() =&gt; DeleteHorse(horse)" StartIcon="@Icons.Material.Filled.Delete"&gt;Delete&lt;/MudButton&gt;
+            &lt;/MudTd&gt;
+        &lt;/RowTemplate&gt;
+    &lt;/MudTable&gt;
+&lt;/MudStack&gt;
+
+@code {
+    private List&lt;Horse&gt; _horses = new();
+
+    protected override void OnInitialized()
+    {
+        _horses = Db.Horses.OrderBy(h =&gt; h.Name).ToList();
+    }
+
+    void EditHorse(Horse h) {}
+    void DeleteHorse(Horse h) {}
+}
+</code></pre>
+          <ol start="2">
+            <li>Add a menu link in <code>Shared/NavMenu.razor</code> (or wherever navigation lives):</li>
+          </ol>
+<pre><code class="language-razor">@using MudBlazor
+
+&lt;MudNavMenu&gt;
+  &lt;MudNavLink Href="/" Icon="@Icons.Material.Filled.Home"&gt;Home&lt;/MudNavLink&gt;
+  &lt;MudNavLink Href="/horses" Icon="@Icons.Material.Filled.Pets"&gt;Horses&lt;/MudNavLink&gt;
+&lt;/MudNavMenu&gt;
+</code></pre>
+          <div class="success"><strong>Tiny win:</strong> You can visit <code>/horses</code> and see the table (it may be empty for now).</div>
+        </section>
+
+        <!-- STEP 6 -->
+        <section id="create" class="card">
+          <div class="step"><div class="num">6</div><h2>Add new horses</h2></div>
+          <p><span class="kicker">Goal:</span> Insert new rows with a friendly dialog.</p>
+          <ol>
+            <li>At the top of <code>Pages/Horses.razor</code>, above the table, add an <em>Add Horse</em> button and dialog:</li>
+          </ol>
+<pre><code class="language-razor">@inject IDialogService Dialog
+
+&lt;MudStack Spacing="2"&gt;
+  &lt;MudStack Row="true" Justify="Justify.FlexEnd"&gt;
+    &lt;MudButton Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" OnClick="ShowAddDialog"&gt;Add Horse&lt;/MudButton&gt;
+  &lt;/MudStack&gt;
+
+  &lt;!-- Existing table here --&gt;
+&lt;/MudStack&gt;
+
+@code {
+  private Horse _editing = new();
+
+  async Task ShowAddDialog()
+  {
+    _editing = new();
+    var parameters = new DialogParameters { [nameof(HorseForm.Model)] = _editing };
+    var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Small, FullWidth = true };
+    var dialog = Dialog.Show&lt;HorseForm&gt;("Add Horse", parameters, options);
+    var result = await dialog.Result;
+    if (!result.Canceled)
+    {
+        Db.Horses.Add(_editing);
+        Db.SaveChanges();
+        _horses = Db.Horses.OrderBy(h =&gt; h.Name).ToList();
+        StateHasChanged();
+    }
+  }
+}
+</code></pre>
+          <p>Create a reusable form component <code>Shared/HorseForm.razor</code>:</p>
+<pre><code class="language-razor">@using HorseManager.Models
+@using MudBlazor
+
+&lt;EditForm Model="Model"&gt;
+  &lt;MudStack Spacing="2"&gt;
+    &lt;MudTextField @bind-Value="Model.Name" Label="Name" Required="true"/&gt;
+    &lt;MudNumericField @bind-Value="Model.Age" Label="Age" Min="0" Max="50"/&gt;
+    &lt;MudTextField @bind-Value="Model.Breed" Label="Breed"/&gt;
+    &lt;MudStack Row="true" Justify="Justify.FlexEnd" Spacing="1"&gt;
+      &lt;MudButton OnClick="() =&gt; MudDialog?.Cancel()" Variant="Variant.Text"&gt;Cancel&lt;/MudButton&gt;
+      &lt;MudButton OnClick="() =&gt; MudDialog?.Close(DialogResult.Ok(true))" Color="Color.Primary"&gt;Save&lt;/MudButton&gt;
+    &lt;/MudStack&gt;
+  &lt;/MudStack&gt;
+&lt;/EditForm&gt;
+
+@code {
+  [CascadingParameter] MudDialogInstance? MudDialog { get; set; }
+  [Parameter] public Horse Model { get; set; } = new();
+}
+</code></pre>
+          <div class="success"><strong>Tiny win:</strong> You can add your first horse and see it persist!</div>
+        </section>
+
+        <!-- STEP 7 -->
+        <section id="edit-delete" class="card">
+          <div class="step"><div class="num">7</div><h2>Edit & delete horses</h2></div>
+          <p><span class="kicker">Goal:</span> Complete the CRUD.</p>
+          <ol>
+            <li>Add handlers back in <code>Pages/Horses.razor</code> to edit and delete:</li>
+          </ol>
+<pre><code class="language-razor">async Task EditHorse(Horse h)
+{
+  // open dialog with a copy, then save into DB if confirmed
+  _editing = new Horse { Id = h.Id, Name = h.Name, Age = h.Age, Breed = h.Breed };
+  var parameters = new DialogParameters { [nameof(HorseForm.Model)] = _editing };
+  var dialog = Dialog.Show&lt;HorseForm&gt;("Edit Horse", parameters);
+  var result = await dialog.Result;
+  if (!result.Canceled)
+  {
+    var entity = Db.Horses.Find(_editing.Id);
+    if (entity is not null)
+    {
+      entity.Name = _editing.Name;
+      entity.Age = _editing.Age;
+      entity.Breed = _editing.Breed;
+      Db.SaveChanges();
+      _horses = Db.Horses.OrderBy(x =&gt; x.Name).ToList();
+      StateHasChanged();
+    }
+  }
+}
+
+void DeleteHorse(Horse h)
+{
+  Db.Horses.Remove(h);
+  Db.SaveChanges();
+  _horses = Db.Horses.OrderBy(x =&gt; x.Name).ToList();
+}
+</code></pre>
+          <div class="success"><strong>Tiny win:</strong> You can update and remove horses. That’s the full CRUD!</div>
+        </section>
+
+        <!-- STEP 8 -->
+        <section id="details" class="card">
+          <div class="step"><div class="num">8</div><h2>(Optional) Details page</h2></div>
+          <p><span class="kicker">Goal:</span> Show a profile page for each horse.</p>
+<pre><code class="language-razor">@page "/horses/{id:int}"
+@inject HorseManager.Data.AppDbContext Db
+@using HorseManager.Models
+@using MudBlazor
+
+@code {
+  [Parameter] public int id { get; set; }
+  private Horse? horse;
+  protected override void OnInitialized() =&gt; horse = Db.Horses.Find(id);
+}
+
+@if (horse is null)
+{
+  &lt;MudText Color="Color.Error"&gt;Horse not found.&lt;/MudText&gt;
+}
+else
+{
+  &lt;MudPaper Class="pa-4" Elevation="1"&gt;
+    &lt;MudText Typo="Typo.h5"&gt;@horse.Name&lt;/MudText&gt;
+    &lt;MudText&gt;Age: @horse.Age&lt;/MudText&gt;
+    &lt;MudText&gt;Breed: @horse.Breed&lt;/MudText&gt;
+  &lt;/MudPaper&gt;
+}
+</code></pre>
+        </section>
+
+        <!-- STEP 9 -->
+        <section id="polish" class="card">
+          <div class="step"><div class="num">9</div><h2>Polish & celebrate</h2></div>
+          <ul>
+            <li>Add a total count: <code>_horses.Count</code> near the page title.</li>
+            <li>Add icons, adjust colors, or change the app bar title.</li>
+            <li>Reorder columns or add a simple search box with <code>MudTextField</code>.</li>
+          </ul>
+          <div class="success"><strong>Tiny win:</strong> Your app looks and feels personal. Take a screenshot! 📸</div>
+        </section>
+
+        <!-- EXTRAS -->
+        <section id="extras" class="card">
+          <h2>Extras (if you’re curious)</h2>
+          <ul>
+            <li><strong>Search/filter:</strong> Add a text box; filter <code>_horses</code> before rendering.</li>
+            <li><strong>Photo uploads:</strong> Store file paths locally; show preview with <code>&lt;img&gt;</code>.</li>
+            <li><strong>Deploy the app:</strong> Later, publish to <a href="https://learn.microsoft.com/azure/app-service/overview" target="_blank">Azure App Service</a>. For beginners, running locally is perfect.</li>
+          </ul>
+          <div class="note">We’ve intentionally skipped advanced topics like authentication to keep focus on learning and momentum.</div>
+        </section>
+
+        <!-- DEPLOY THIS SITE -->
+        <section id="vercel" class="card">
+          <h2>Deploy <em>this tutorial site</em> to Vercel</h2>
+          <ol>
+            <li>Create a new Git repository and add this <code>index.html</code> file.</li>
+            <li>Push to GitHub.</li>
+            <li>In <a href="https://vercel.com/" target="_blank">Vercel</a>, create a New Project → Import your repo → Framework preset: <strong>Other</strong> (it’s a static site).</li>
+            <li>Build command: <code>None</code> • Output directory: <code>/</code>.</li>
+          </ol>
+          <p class="tip">When you’re ready to deploy the <em>Blazor app</em> itself, consider Azure App Service or an on‑prem server. For beginners, running locally is perfect.</p>
+        </section>
+
+        <!-- HICCUPS -->
+        <section class="card">
+          <h2>Common hiccups (and quick fixes)</h2>
+          <ul>
+            <li><span style="color:var(--danger);font-weight:600">Error:</span> EF command not found → Install the tool: <code>dotnet tool install --global dotnet-ef</code></li>
+            <li><span style="color:var(--danger);font-weight:600">Error:</span> Build failure after adding packages → Try <code>dotnet restore</code> then rebuild.</li>
+            <li><span style="color:var(--danger);font-weight:600">Table empty?</span> → Add a horse using the dialog, then it appears in the list.</li>
+          </ul>
+          <p>More reading: <a href="https://learn.microsoft.com/dotnet/core/tools/" target="_blank">.NET CLI</a>, <a href="https://learn.microsoft.com/aspnet/core/?view=aspnetcore-9.0" target="_blank">ASP.NET Core docs</a>, <a href="https://learn.microsoft.com/ef/core/" target="_blank">EF Core docs</a>, <a href="https://mudblazor.com/" target="_blank">MudBlazor</a>, <a href="https://www.sqlite.org/index.html" target="_blank">SQLite</a>.</p>
+        </section>
+
+        <footer>
+          <p>Made for absolute beginners. Every step earns a tiny win. You’ve got this! 💪</p>
+        </footer>
+      </main>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-markup-templating.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-razor.min.js"></script>
+</body>
+</html>
