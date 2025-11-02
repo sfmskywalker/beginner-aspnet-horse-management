@@ -89,83 +89,213 @@
         <!-- STEP 0 -->
         <section id="prereqs" class="card">
           <div class="step"><div class="num">0</div><h2>Install & set up</h2></div>
-          <p><span class="kicker">Goal:</span> Be ready to write and run .NET code.</p>
+          <p><span class="kicker">Goal:</span> Get the tools you need to build web apps with .NET.</p>
+
+          <h3 style="margin-top:16px">What you're installing and why:</h3>
+          <ul>
+            <li><strong>Visual Studio 2022</strong> — The program where you'll write and run your code (like Microsoft Word, but for coding)</li>
+            <li><strong>.NET 9 SDK</strong> — The toolkit that lets your computer understand and run C# code</li>
+            <li><strong>ASP.NET Core workload</strong> — Extra tools for building websites</li>
+          </ul>
+
+          <h3 style="margin-top:16px">Step-by-step installation:</h3>
           <ol>
             <li>
-              Download and install <a href="https://visualstudio.microsoft.com/free-developer-offers/" target="_blank">Visual Studio 2022 (Community Edition)</a> with the <a href="https://learn.microsoft.com/aspnet/core/?view=aspnetcore-9.0" target="_blank">ASP.NET Core</a> and web development workload and the <a href="https://dotnet.microsoft.com/download/dotnet/9.0" target="_blank">.NET 9 SDK</a>.
-              <div class="note" style="margin-top:8px">Prefer lightweight? You can use <a href="https://code.visualstudio.com/" target="_blank">VS Code</a> + <a href="https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csdevkit" target="_blank">C# Dev Kit</a>, but this guide assumes Visual Studio for the smoothest first experience.</div>
+              Go to <a href="https://visualstudio.microsoft.com/free-developer-offers/" target="_blank">Visual Studio download page</a> and download <strong>Visual Studio 2022 Community Edition</strong> (it's free!).
             </li>
             <li>
-              In Visual Studio: <span class="kbd">Create a new project</span> → choose <strong>Blazor Server App</strong>. Learn about <a href="https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor" target="_blank">Blazor</a> and what <a href="https://learn.microsoft.com/aspnet/core/blazor/?view=aspnetcore-9.0" target="_blank">Blazor Server</a> means.
+              Run the installer. When asked which <em>workloads</em> to install, check the box for <strong>"ASP.NET and web development"</strong>. This automatically includes .NET 9.
+              <div class="tip" style="margin-top:8px">A "workload" is just a bundle of related tools. This one gives you everything for building websites.</div>
+            </li>
+            <li>
+              Click <strong>Install</strong> and wait (this may take 10-20 minutes).
+            </li>
+            <li>
+              Once installed, open Visual Studio. Click <strong>Create a new project</strong>.
+            </li>
+            <li>
+              In the search box, type <code>Blazor Server</code> and select <strong>Blazor Server App</strong>.
+              <div class="note" style="margin-top:8px"><strong>What's Blazor Server?</strong> It's a way to build interactive websites using C# instead of JavaScript. Your app runs on a server and updates the web page automatically.</div>
+            </li>
+            <li>
+              Click <strong>Next</strong> and fill in:
               <ul>
-                <li>Project name: <code>HorseManager</code></li>
-                <li>Framework: <code>.NET 9</code></li>
-                <li>Authentication: <code>None</code></li>
+                <li><strong>Project name:</strong> <code>HorseManager</code></li>
+                <li><strong>Location:</strong> Choose a folder you can find easily (like <code>Documents</code>)</li>
               </ul>
             </li>
-            <li>Click <span class="kbd">▶ Run</span>. You’ll see the default Blazor app.
-              <div class="success" style="margin-top:8px"><strong>Tiny win:</strong> You ran your first web app!</div>
+            <li>
+              Click <strong>Next</strong> again. Set:
+              <ul>
+                <li><strong>Framework:</strong> <code>.NET 9.0</code> (should be selected by default)</li>
+                <li><strong>Authentication type:</strong> <code>None</code></li>
+              </ul>
+            </li>
+            <li>
+              Click <strong>Create</strong>. Visual Studio will generate a starter project for you.
+            </li>
+            <li>
+              Look for the green <span class="kbd">▶</span> (play) button at the top. Click it!
+              <div class="success" style="margin-top:8px"><strong>Tiny win:</strong> A web browser should open showing your first web app! It has a counter and weather forecast. You didn't write this yet—it's just a template to start from.</div>
             </li>
           </ol>
+          <p class="tip"><strong>Tip:</strong> To stop the app, close the browser window and click the red <span class="kbd">■</span> (stop) button in Visual Studio.</p>
+
           <details>
-            <summary>What did you just use?</summary>
-            <p><strong><a href="https://learn.microsoft.com/aspnet/core/?view=aspnetcore-9.0" target="_blank">ASP.NET Core</a></strong> is a web framework for building apps with .NET. <strong>Blazor Server</strong> lets you write UI using C# and Razor (HTML + C#). It runs on the server and updates the page live over SignalR.</p>
+            <summary>Prefer VS Code instead?</summary>
+            <p>You can use <a href="https://code.visualstudio.com/" target="_blank">VS Code</a> + <a href="https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csdevkit" target="_blank">C# Dev Kit extension</a>, but this tutorial assumes Visual Studio because it's simpler for beginners. VS Code requires more command-line work.</p>
           </details>
         </section>
 
         <!-- STEP 0.5: CMD INTRO -->
         <section id="cmd" class="card">
-          <div class="step"><div class="num">0.5</div><h2>Using the Command Prompt (Windows)</h2></div>
-          <p><span class="kicker">Goal:</span> Be comfortable running simple commands you’ll copy from this tutorial.</p>
+          <div class="step"><div class="num">0.5</div><h2>Using the Terminal</h2></div>
+          <p><span class="kicker">Goal:</span> Learn how to run text commands (you'll copy-paste them—no memorizing needed!).</p>
+
+          <h3 style="margin-top:16px">What's a terminal?</h3>
+          <p>A <strong>terminal</strong> (also called "command line" or "command prompt") is a way to give instructions to your computer by typing text commands instead of clicking buttons. Don't worry—this tutorial tells you exactly what to type!</p>
+
+          <h3 style="margin-top:16px">How to open the terminal in Visual Studio (EASIEST):</h3>
           <ol>
-            <li>Press <span class="kbd">⊞ Win</span>, type <strong>cmd</strong>, and press <span class="kbd">Enter</span> to open <strong>Command Prompt</strong>.</li>
-            <li>Use <code>cd</code> to change folders. Example:<br><code>cd C:\Users\YourName\source\repos\HorseManager</code></li>
-            <li>When the tutorial says to run a command like <code>dotnet add package ...</code>, paste it into Command Prompt and press <span class="kbd">Enter</span>.</li>
+            <li>In Visual Studio, go to the menu bar at the top</li>
+            <li>Click <strong>View</strong> → <strong>Terminal</strong></li>
+            <li>A panel will appear at the bottom of Visual Studio—this is your terminal</li>
           </ol>
-          <p class="tip">You can also open a terminal inside Visual Studio: menu <em>View → Terminal</em>.</p>
+          <div class="tip">✅ <strong>Use this method!</strong> The terminal automatically opens in your project folder, so you don't need to navigate anywhere.</div>
+
+          <h3 style="margin-top:16px">Alternative: Windows Command Prompt</h3>
+          <ol>
+            <li>Press <span class="kbd">⊞ Win</span> key on your keyboard</li>
+            <li>Type <strong>cmd</strong> and press <span class="kbd">Enter</span></li>
+            <li>Type <code>cd</code> (which means "change directory") followed by your project path:
+              <pre><code>cd C:\Users\YourName\Documents\HorseManager</code></pre>
+              <div class="note" style="margin-top:8px">Replace <code>YourName</code> with your actual Windows username, and adjust the path if you saved your project somewhere else.</div>
+            </li>
+          </ol>
+
+          <h3 style="margin-top:16px">How to run a command:</h3>
+          <ol>
+            <li>When this tutorial shows a command in a gray box, copy it (including <code>dotnet</code> at the start)</li>
+            <li>Click in the terminal to make sure it's active</li>
+            <li>Right-click to paste (or press <span class="kbd">Ctrl+V</span>)</li>
+            <li>Press <span class="kbd">Enter</span></li>
+            <li>Wait for it to finish—you'll see text appear, then a new line where you can type again</li>
+          </ol>
+
+          <div class="success"><strong>Don't panic if you see text scrolling by!</strong> That's normal. The computer is telling you what it's doing.</div>
         </section>
 
         <!-- STEP 1 -->
         <section id="hello" class="card">
           <div class="step"><div class="num">1</div><h2>Make it yours</h2></div>
-          <p><span class="kicker">Goal:</span> Change the home page text so it feels like <em>your</em> app.</p>
+          <p><span class="kicker">Goal:</span> Edit your first file and see your changes appear in the browser!</p>
+
+          <h3 style="margin-top:16px">How to find and edit files in Visual Studio:</h3>
           <ol>
-            <li>Open <code>Pages/Index.razor</code> and replace its content with:</li>
-          </ol>
+            <li>
+              Look at the right side of Visual Studio—you'll see the <strong>Solution Explorer</strong> panel. This shows all your project files in a tree structure (like folders on your computer).
+              <div class="tip" style="margin-top:8px">Can't see it? Go to <strong>View</strong> → <strong>Solution Explorer</strong> in the menu.</div>
+            </li>
+            <li>
+              In Solution Explorer, expand (click the ▶ arrow next to) the <strong>Pages</strong> folder.
+            </li>
+            <li>
+              Double-click <code>Index.razor</code> to open it. This file controls what you see on the home page.
+            </li>
+            <li>
+              You'll see some HTML-like code. <strong>Select everything</strong> (press <span class="kbd">Ctrl+A</span>) and <strong>delete it</strong>.
+            </li>
+            <li>
+              Type (or paste) this instead:
 <pre><code class="language-razor">&lt;h1&gt;🐴 Welcome to Horse Manager!&lt;/h1&gt;
 &lt;p&gt;This app helps you keep track of your horses.&lt;/p&gt;
 </code></pre>
-          <p>Run it. You should see your text and emoji. ✨</p>
+            </li>
+            <li>
+              <strong>Save the file:</strong> Press <span class="kbd">Ctrl+S</span> or go to <strong>File</strong> → <strong>Save</strong>.
+            </li>
+            <li>
+              Click the green <span class="kbd">▶</span> button to run the app.
+            </li>
+            <li>
+              Look at the browser—you should now see your custom message and horse emoji! 🎉
+            </li>
+          </ol>
+
+          <div class="success"><strong>Tiny win:</strong> You just edited a real web page! Every time you change a <code>.razor</code> file and save it, your webpage updates.</div>
+
+          <details>
+            <summary>What's a .razor file?</summary>
+            <p>A <code>.razor</code> file mixes HTML (for structure) with C# code (for logic). The <code>@</code> symbol lets you write C# inside HTML. You'll see this more later!</p>
+          </details>
         </section>
 
         <!-- STEP 2 -->
         <section id="mudblazor" class="card">
           <div class="step"><div class="num">2</div><h2>Add MudBlazor for a modern UI</h2></div>
-          <p><span class="kicker">Goal:</span> Make the app look professional with minimal effort.</p>
-          <p><a href="https://mudblazor.com/" target="_blank">MudBlazor</a> provides ready-made components.</p>
+          <p><span class="kicker">Goal:</span> Install a "component library" so your app looks professional without designing everything from scratch.</p>
+
+          <h3 style="margin-top:16px">What's MudBlazor?</h3>
+          <p><a href="https://mudblazor.com/" target="_blank">MudBlazor</a> is a collection of pre-built, good-looking UI pieces (buttons, tables, forms, etc.) that you can drop into your app. Think of it like IKEA furniture for your website—it's already designed, you just assemble it!</p>
+
+          <h3 style="margin-top:16px">What's a NuGet package?</h3>
+          <p>A <strong>NuGet package</strong> is code written by someone else that you can download and use in your project. Instead of writing a button from scratch, you download MudBlazor and use their button. Packages save tons of time!</p>
+
+          <h3 style="margin-top:16px">Installing MudBlazor using Visual Studio:</h3>
           <ol>
-            <li>In Visual Studio, right-click your project <code>HorseManager</code> in <strong>Solution Explorer</strong> → select <strong>Manage NuGet Packages</strong>.</li>
-            <li>Click the <strong>Browse</strong> tab, search for <code>MudBlazor</code>, and click <strong>Install</strong>.</li>
-            <li>Repeat for <code>MudBlazor.Services</code>.</li>
+            <li>In <strong>Solution Explorer</strong> (right side), find your project name <code>HorseManager</code></li>
+            <li><strong>Right-click</strong> on it</li>
+            <li>Select <strong>Manage NuGet Packages...</strong></li>
+            <li>Click the <strong>Browse</strong> tab at the top</li>
+            <li>In the search box, type <code>MudBlazor</code></li>
+            <li>Click on <code>MudBlazor</code> in the results</li>
+            <li>Click the <strong>Install</strong> button on the right</li>
+            <li>If a preview window appears, click <strong>OK</strong></li>
+            <li>Repeat steps 5-8 for <code>MudBlazor.Services</code> (search → select → install)</li>
           </ol>
-          <div class="tip" style="margin-top:8px">Prefer the command line? Open <em>View → Terminal</em> and run: <code>dotnet add package MudBlazor</code> then <code>dotnet add package MudBlazor.Services</code></div>
-          <ol start="4">
-            <li>In <code>Program.cs</code>, register MudBlazor services:</li>
+
+          <div class="tip" style="margin-top:8px"><strong>Prefer terminal?</strong> Open <em>View → Terminal</em> and run these commands one at a time:
+            <pre style="margin-top:8px"><code>dotnet add package MudBlazor
+dotnet add package MudBlazor.Services</code></pre>
+            Wait for each to finish before running the next one. You'll see "Successfully installed" when done.
+          </div>
+
+          <h3 style="margin-top:16px">Configuring MudBlazor in your code:</h3>
+          <p>Now you need to tell your app to actually <em>use</em> MudBlazor.</p>
+
+          <h4 style="margin-top:12px">Step A: Update Program.cs</h4>
+          <ol>
+            <li>In Solution Explorer, find and double-click <code>Program.cs</code> (it's near the top, not in a folder)</li>
+            <li>At the very top, you'll see lines starting with <code>using</code>. Add this line with the others:</li>
           </ol>
-<pre><code class="language-csharp">using MudBlazor.Services; // add at the top
+<pre><code class="language-csharp">using MudBlazor.Services;</code></pre>
+          <ol start="3">
+            <li>Scroll down to where you see <code>builder.Services.AddServerSideBlazor();</code></li>
+            <li>Right after that line, add:</li>
+          </ol>
+<pre><code class="language-csharp">builder.Services.AddMudServices();</code></pre>
+          <p style="margin-top:8px">Your <code>Program.cs</code> should now look something like this:</p>
+<pre><code class="language-csharp">using MudBlazor.Services; // ← you added this
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-
-// MudBlazor
-builder.Services.AddMudServices();
+builder.Services.AddMudServices(); // ← you added this
 
 var app = builder.Build();
+// ... rest of the file
 </code></pre>
           <ol start="5">
-            <li>Open <code>Shared/MainLayout.razor</code> and replace its content with:</li>
+            <li>Save the file (<span class="kbd">Ctrl+S</span>)</li>
+          </ol>
+
+          <h4 style="margin-top:12px">Step B: Update the layout</h4>
+          <ol>
+            <li>In Solution Explorer, expand the <strong>Components</strong> folder (or <strong>Shared</strong> if you don't see Components)</li>
+            <li>Double-click <code>MainLayout.razor</code></li>
+            <li><strong>Select all</strong> (<span class="kbd">Ctrl+A</span>) and <strong>delete</strong> it</li>
+            <li>Paste this new code:</li>
           </ol>
 <pre><code class="language-razor">@using MudBlazor
 @inherits LayoutComponentBase
@@ -184,16 +314,40 @@ var app = builder.Build();
     &lt;/MudMainContent&gt;
 &lt;/MudLayout&gt;
 </code></pre>
-          <p>Run again. The app now has a polished shell. 🎨</p>
+          <ol start="5">
+            <li>Save (<span class="kbd">Ctrl+S</span>)</li>
+            <li>Run the app (<span class="kbd">▶</span>)</li>
+          </ol>
+
+          <div class="success"><strong>Tiny win:</strong> Your app now has a sleek purple header bar and looks much more polished! 🎨</div>
+
+          <details>
+            <summary>What did this code do?</summary>
+            <p><code>MainLayout.razor</code> is a wrapper that appears on every page. <code>MudLayout</code> and <code>MudAppBar</code> are MudBlazor components that create the header and structure. The <code>@Body</code> is where your individual pages (like Index.razor) get inserted.</p>
+          </details>
         </section>
 
         <!-- STEP 3 -->
         <section id="model" class="card">
           <div class="step"><div class="num">3</div><h2>Create the <code>Horse</code> model</h2></div>
-          <p><span class="kicker">Goal:</span> Define what a horse looks like in code.</p>
+          <p><span class="kicker">Goal:</span> Define what information you want to track about each horse.</p>
+
+          <h3 style="margin-top:16px">What's a "model"?</h3>
+          <p>A <strong>model</strong> is like a blueprint or template. Think of it as a form: "Every horse has a Name, Age, and Breed." In C#, we create a <strong>class</strong> (a custom data type) to represent this.</p>
+
+          <h3 style="margin-top:16px">Creating a folder and file:</h3>
           <ol>
-            <li>Create a folder <code>Models</code> → Add file <code>Horse.cs</code>:</li>
+            <li>In <strong>Solution Explorer</strong>, right-click your project <code>HorseManager</code></li>
+            <li>Choose <strong>Add</strong> → <strong>New Folder</strong></li>
+            <li>Name it <code>Models</code> and press <span class="kbd">Enter</span></li>
+            <li>Right-click the new <code>Models</code> folder</li>
+            <li>Choose <strong>Add</strong> → <strong>Class...</strong></li>
+            <li>In the dialog, type <code>Horse.cs</code> as the name</li>
+            <li>Click <strong>Add</strong></li>
           </ol>
+
+          <h3 style="margin-top:16px">Writing the Horse class:</h3>
+          <p>Visual Studio created a file with some template code. Replace everything in <code>Horse.cs</code> with:</p>
 <pre><code class="language-csharp">namespace HorseManager.Models;
 
 public class Horse
@@ -204,29 +358,73 @@ public class Horse
     public string Breed { get; set; } = string.Empty;
 }
 </code></pre>
-          <p><em>Id</em> will be the primary key in the database. The rest are the properties we’ll show and edit.</p>
+          <p>Save the file (<span class="kbd">Ctrl+S</span>).</p>
+
+          <h3 style="margin-top:16px">Understanding the code:</h3>
+          <ul>
+            <li><code>namespace HorseManager.Models;</code> — Organizes your code (like putting files in folders)</li>
+            <li><code>public class Horse</code> — Creates a new type called "Horse" that other code can use</li>
+            <li><code>public int Id { get; set; }</code> — Each horse gets a unique ID number (the database will assign this automatically)</li>
+            <li><code>public string Name { get; set; }</code> — The horse's name (text)</li>
+            <li><code>public int Age { get; set; }</code> — The horse's age (whole number)</li>
+            <li><code>public string Breed { get; set; }</code> — The horse's breed (text)</li>
+            <li><code>= string.Empty</code> — Makes sure text fields start as empty instead of null (prevents errors)</li>
+          </ul>
+
+          <div class="success"><strong>Tiny win:</strong> You just created your first data structure! This is how programmers organize information.</div>
+
+          <details>
+            <summary>What are "properties"?</summary>
+            <p>The <code>{ get; set; }</code> parts are called <strong>properties</strong>. They're like variables that let you read (<code>get</code>) and change (<code>set</code>) values. So you can do: <code>horse.Name = "Thunder";</code> or <code>var name = horse.Name;</code></p>
+          </details>
         </section>
 
         <!-- STEP 4 -->
         <section id="db" class="card">
           <div class="step"><div class="num">4</div><h2>Connect a database with EF Core + SQLite</h2></div>
-          <p><span class="kicker">Goal:</span> Save horses so they persist after you close the app.</p>
-          <p>We'll use <a href="https://learn.microsoft.com/ef/core/" target="_blank">Entity Framework Core</a> (an ORM) and <a href="https://www.sqlite.org/index.html" target="_blank">SQLite</a> (a simple embedded database).</p>
+          <p><span class="kicker">Goal:</span> Set up a database so your horses are saved permanently (not just lost when you close the app!).</p>
+
+          <h3 style="margin-top:16px">What you're setting up:</h3>
+          <ul>
+            <li><strong>SQLite</strong> — A simple database that saves data to a single file (like Excel, but for apps)</li>
+            <li><strong>Entity Framework Core (EF Core)</strong> — A translator that lets you talk to the database using C# instead of SQL commands</li>
+          </ul>
+          <div class="note">Think of EF Core as a messenger: you say "save this horse" in C#, and EF Core handles the database work behind the scenes.</div>
+
+          <h3 style="margin-top:16px">Step 1: Install database packages</h3>
           <ol>
-            <li>In Visual Studio, right-click your project in <strong>Solution Explorer</strong> → <strong>Manage NuGet Packages</strong>.</li>
-            <li>Search for and install:
-              <ul>
-                <li><code>Microsoft.EntityFrameworkCore.Sqlite</code></li>
-                <li><code>Microsoft.EntityFrameworkCore.Design</code></li>
-              </ul>
-            </li>
-            <li>Open <strong>View → Terminal</strong> in Visual Studio and install the EF CLI tool:</li>
+            <li>Right-click your project <code>HorseManager</code> in Solution Explorer</li>
+            <li>Select <strong>Manage NuGet Packages...</strong></li>
+            <li>Click <strong>Browse</strong></li>
+            <li>Search for <code>Microsoft.EntityFrameworkCore.Sqlite</code></li>
+            <li>Click <strong>Install</strong>, then <strong>OK</strong> if prompted</li>
+            <li>Search for <code>Microsoft.EntityFrameworkCore.Design</code></li>
+            <li>Click <strong>Install</strong>, then <strong>OK</strong> if prompted</li>
+          </ol>
+
+          <h3 style="margin-top:16px">Step 2: Install the EF command-line tool</h3>
+          <p>This tool helps you create and update the database from the terminal.</p>
+          <ol>
+            <li>Open the terminal: <strong>View</strong> → <strong>Terminal</strong></li>
+            <li>Copy this command and paste it into the terminal:</li>
           </ol>
 <pre><code class="language-bash">dotnet tool install --global dotnet-ef
 </code></pre>
-          <div class="tip" style="margin-top:8px">The EF CLI tool is used from the command line to create database migrations and updates.</div>
-          <ol start="4">
-            <li>Create <code>Data/AppDbContext.cs</code>:</li>
+          <ol start="3">
+            <li>Press <span class="kbd">Enter</span></li>
+            <li>Wait for it to finish (you'll see "Successfully installed" or "Tool 'dotnet-ef' is already installed")</li>
+          </ol>
+
+          <h3 style="margin-top:16px">Step 3: Create the database context</h3>
+          <p>The <strong>context</strong> is your app's "connection" to the database. It knows what tables exist and how to read/write data.</p>
+          <ol>
+            <li>In Solution Explorer, right-click your project <code>HorseManager</code></li>
+            <li>Choose <strong>Add</strong> → <strong>New Folder</strong></li>
+            <li>Name it <code>Data</code></li>
+            <li>Right-click the <code>Data</code> folder</li>
+            <li>Choose <strong>Add</strong> → <strong>Class...</strong></li>
+            <li>Name it <code>AppDbContext.cs</code></li>
+            <li>Replace all the code in that file with:</li>
           </ol>
 <pre><code class="language-csharp">using HorseManager.Models;
 using Microsoft.EntityFrameworkCore;
@@ -238,45 +436,93 @@ public class AppDbContext(DbContextOptions&lt;AppDbContext&gt; options) : DbCont
     public DbSet&lt;Horse&gt; Horses =&gt; Set&lt;Horse&gt;();
 }
 </code></pre>
-          <ol start="5">
-            <li>Register the database in <code>Program.cs</code>:</li>
+          <ol start="8">
+            <li>Save (<span class="kbd">Ctrl+S</span>)</li>
           </ol>
-<pre><code class="language-csharp">using HorseManager.Data; // add at the top
-using Microsoft.EntityFrameworkCore; // add at the top
+          <div class="tip"><strong>What this does:</strong> <code>DbSet&lt;Horse&gt;</code> tells EF Core "I want a table for horses." EF Core will create it automatically!</div>
+
+          <h3 style="margin-top:16px">Step 4: Tell your app to use the database</h3>
+          <ol>
+            <li>Open <code>Program.cs</code></li>
+            <li>At the top with the other <code>using</code> statements, add these two lines:</li>
+          </ol>
+<pre><code class="language-csharp">using HorseManager.Data;
+using Microsoft.EntityFrameworkCore;
+</code></pre>
+          <ol start="3">
+            <li>Find where you added <code>builder.Services.AddMudServices();</code> earlier</li>
+            <li>Right after it, add these lines:</li>
+          </ol>
+<pre><code class="language-csharp">builder.Services.AddDbContext&lt;AppDbContext&gt;(options =&gt;
+    options.UseSqlite("Data Source=horses.db"));
+</code></pre>
+          <p style="margin-top:8px">Your <code>Program.cs</code> should now look like:</p>
+<pre><code class="language-csharp">using MudBlazor.Services;
+using HorseManager.Data;                // ← you added
+using Microsoft.EntityFrameworkCore;   // ← you added
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+builder.Services.AddMudServices();
 
-builder.Services.AddDbContext&lt;AppDbContext&gt;(options =&gt;
-    options.UseSqlite("Data Source=horses.db"));
+builder.Services.AddDbContext&lt;AppDbContext&gt;(options =&gt;  // ← you added
+    options.UseSqlite("Data Source=horses.db"));        // ← you added
 
 var app = builder.Build();
+// ... rest of file
 </code></pre>
-          <ol start="6">
-            <li>Create the database schema with migrations (in <strong>View → Terminal</strong>):</li>
+          <ol start="5">
+            <li>Save (<span class="kbd">Ctrl+S</span>)</li>
+          </ol>
+
+          <h3 style="margin-top:16px">Step 5: Create the actual database</h3>
+          <p>Now for the magic! These commands will generate and create your database file.</p>
+          <ol>
+            <li>Make sure the terminal is open (<strong>View</strong> → <strong>Terminal</strong>)</li>
+            <li>Copy and paste this command, then press <span class="kbd">Enter</span>:</li>
           </ol>
 <pre><code class="language-bash">dotnet ef migrations add InitialCreate
-dotnet ef database update
 </code></pre>
-          <div class="success"><strong>Tiny win:</strong> You now have a real database file: <code>horses.db</code>.</div>
+          <div class="note" style="margin-top:8px"><strong>What to expect:</strong> You'll see text like "Build started... Build succeeded... Done." This creates a <code>Migrations</code> folder with code that describes your database structure.</div>
+          <ol start="3">
+            <li>Now run this command:</li>
+          </ol>
+<pre><code class="language-bash">dotnet ef database update
+</code></pre>
+          <div class="note" style="margin-top:8px"><strong>What to expect:</strong> You'll see "Applying migration 'InitialCreate'... Done." This actually creates the <code>horses.db</code> file in your project folder!</div>
+
+          <div class="success"><strong>Tiny win:</strong> You now have a real database! Look in Solution Explorer and you might see <code>horses.db</code> (you may need to click the "Show All Files" button at the top).</div>
+
           <details>
-            <summary>What’s a migration?</summary>
-            <p>It’s a versioned change to your database structure. EF Core generates code to create (or update) tables based on your models. See <a href="https://learn.microsoft.com/ef/core/managing-schemas/migrations/?tabs=dotnet-core-cli" target="_blank">EF Core Migrations</a>.</p>
+            <summary>What's a "migration"?</summary>
+            <p>A <strong>migration</strong> is like a recipe for creating or updating your database. It's a C# file that says "create a Horses table with Id, Name, Age, and Breed columns." If you add fields later, you create a new migration to update the database without losing data. Learn more: <a href="https://learn.microsoft.com/ef/core/managing-schemas/migrations/?tabs=dotnet-core-cli" target="_blank">EF Core Migrations docs</a></p>
+          </details>
+
+          <details>
+            <summary>Troubleshooting: "dotnet-ef command not found"</summary>
+            <p>If you get an error, try closing and reopening the terminal. If that doesn't work, run the install command again: <code>dotnet tool install --global dotnet-ef</code></p>
           </details>
         </section>
 
         <!-- STEP 5 -->
         <section id="list" class="card">
           <div class="step"><div class="num">5</div><h2>List horses</h2></div>
-          <p><span class="kicker">Goal:</span> Show horses in a nice table.</p>
+          <p><span class="kicker">Goal:</span> Create a page that displays all your horses in a table.</p>
+
+          <h3 style="margin-top:16px">Step 1: Create the Horses page</h3>
           <ol>
-            <li>Add a page: <code>Pages/Horses.razor</code></li>
+            <li>In Solution Explorer, right-click the <strong>Pages</strong> folder (or <strong>Components/Pages</strong> if that's what you see)</li>
+            <li>Choose <strong>Add</strong> → <strong>Razor Component...</strong> (or <strong>New Item...</strong> then choose "Razor Component")</li>
+            <li>Name it <code>Horses.razor</code></li>
+            <li>Click <strong>Add</strong></li>
+            <li>Delete all the template code and replace it with:</li>
           </ol>
 <pre><code class="language-razor">@page "/horses"
 @using HorseManager.Models
-@inject HorseManager.Data.AppDbContext Db
+@using HorseManager.Data
+@inject AppDbContext Db
 @using MudBlazor
 
 &lt;MudStack Spacing="2"&gt;
@@ -313,57 +559,65 @@ dotnet ef database update
     void DeleteHorse(Horse h) {}
 }
 </code></pre>
-          <ol start="2">
-            <li>Add a menu link in <code>Shared/NavMenu.razor</code> (or wherever navigation lives):</li>
+          <ol start="6">
+            <li>Save (<span class="kbd">Ctrl+S</span>)</li>
           </ol>
-<pre><code class="language-razor">@using MudBlazor
 
-&lt;MudNavMenu&gt;
-  &lt;MudNavLink Href="/" Icon="@Icons.Material.Filled.Home"&gt;Home&lt;/MudNavLink&gt;
-  &lt;MudNavLink Href="/horses" Icon="@Icons.Material.Filled.Pets"&gt;Horses&lt;/MudNavLink&gt;
-&lt;/MudNavMenu&gt;
+          <h3 style="margin-top:16px">Understanding the code:</h3>
+          <ul>
+            <li><code>@page "/horses"</code> — Makes this page accessible at <code>yoursite.com/horses</code></li>
+            <li><code>@inject AppDbContext Db</code> — Gives this page access to the database</li>
+            <li><code>OnInitialized()</code> — Runs automatically when the page loads; it fetches all horses from the database</li>
+            <li><code>OrderBy(h =&gt; h.Name)</code> — Sorts horses alphabetically by name</li>
+            <li><code>MudTable</code> — A MudBlazor component that displays data in a table</li>
+            <li><code>@horse.Name</code> — Displays each horse's name (the <code>@</code> lets you use C# in HTML)</li>
+          </ul>
+
+          <h3 style="margin-top:16px">Step 2: Add a navigation menu</h3>
+          <p>Let's add a sidebar menu so you can click to reach the Horses page.</p>
+          <ol>
+            <li>Look for <code>NavMenu.razor</code> in your project. It might be in:
+              <ul>
+                <li><code>Components/Layout/NavMenu.razor</code>, OR</li>
+                <li><code>Shared/NavMenu.razor</code></li>
+              </ul>
+              <div class="tip" style="margin-top:8px">Can't find it? Look in Solution Explorer under <strong>Components</strong> or <strong>Shared</strong> folder. If it doesn't exist, you'll create a simpler navigation in MainLayout instead.</div>
+            </li>
+            <li>If you found <code>NavMenu.razor</code>, open it and look for existing nav links (lines with <code>&lt;NavLink&gt;</code> or <code>&lt;MudNavLink&gt;</code>)</li>
+            <li>Add this line with the others:</li>
+          </ol>
+<pre><code class="language-razor">&lt;MudNavLink Href="/horses" Icon="@Icons.Material.Filled.Pets"&gt;Horses&lt;/MudNavLink&gt;
 </code></pre>
-          <div class="success"><strong>Tiny win:</strong> You can visit <code>/horses</code> and see the table (it may be empty for now).</div>
+          <div class="note" style="margin-top:8px"><strong>Alternative if no NavMenu exists:</strong> Open <code>MainLayout.razor</code> and add a simple link inside <code>&lt;MudAppBar&gt;</code>:
+<pre style="margin-top:4px"><code>&lt;MudButton Href="/" Color="Color.Inherit"&gt;Home&lt;/MudButton&gt;
+&lt;MudButton Href="/horses" Color="Color.Inherit"&gt;Horses&lt;/MudButton&gt;</code></pre>
+          </div>
+          <ol start="4">
+            <li>Save and run the app (<span class="kbd">▶</span>)</li>
+            <li>Click the <strong>Horses</strong> link in the menu</li>
+          </ol>
+
+          <div class="success"><strong>Tiny win:</strong> You should see the Horses page with an empty table! Don't worry—it's empty because you haven't added any horses yet. That's coming in the next step!</div>
+
+          <details>
+            <summary>Why are the Edit and Delete buttons there if they don't work yet?</summary>
+            <p>We created empty placeholder functions (<code>void EditHorse(Horse h) {}</code>) so the page compiles without errors. You'll fill them in during Steps 6 and 7. This is a common development practice—build the UI first, then add functionality.</p>
+          </details>
         </section>
 
         <!-- STEP 6 -->
         <section id="create" class="card">
           <div class="step"><div class="num">6</div><h2>Add new horses</h2></div>
-          <p><span class="kicker">Goal:</span> Insert new rows with a friendly dialog.</p>
+          <p><span class="kicker">Goal:</span> Create a popup form to add horses to your database.</p>
+
+          <h3 style="margin-top:16px">Step 1: Create the form component</h3>
+          <p>First, let's build a reusable form that can be used for both adding and editing horses.</p>
           <ol>
-            <li>At the top of <code>Pages/Horses.razor</code>, above the table, add an <em>Add Horse</em> button and dialog:</li>
+            <li>In Solution Explorer, right-click the <strong>Components</strong> folder (or <strong>Shared</strong> if you don't see Components)</li>
+            <li>Choose <strong>Add</strong> → <strong>Razor Component...</strong></li>
+            <li>Name it <code>HorseForm.razor</code></li>
+            <li>Replace all the code with:</li>
           </ol>
-<pre><code class="language-razor">@inject IDialogService Dialog
-
-&lt;MudStack Spacing="2"&gt;
-  &lt;MudStack Row="true" Justify="Justify.FlexEnd"&gt;
-    &lt;MudButton Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" OnClick="ShowAddDialog"&gt;Add Horse&lt;/MudButton&gt;
-  &lt;/MudStack&gt;
-
-  &lt;!-- Existing table here --&gt;
-&lt;/MudStack&gt;
-
-@code {
-  private Horse _editing = new();
-
-  async Task ShowAddDialog()
-  {
-    _editing = new();
-    var parameters = new DialogParameters { [nameof(HorseForm.Model)] = _editing };
-    var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Small, FullWidth = true };
-    var dialog = Dialog.Show&lt;HorseForm&gt;("Add Horse", parameters, options);
-    var result = await dialog.Result;
-    if (!result.Canceled)
-    {
-        Db.Horses.Add(_editing);
-        Db.SaveChanges();
-        _horses = Db.Horses.OrderBy(h =&gt; h.Name).ToList();
-        StateHasChanged();
-    }
-  }
-}
-</code></pre>
-          <p>Create a reusable form component <code>Shared/HorseForm.razor</code>:</p>
 <pre><code class="language-razor">@using HorseManager.Models
 @using MudBlazor
 
@@ -384,46 +638,179 @@ dotnet ef database update
   [Parameter] public Horse Model { get; set; } = new();
 }
 </code></pre>
-          <div class="success"><strong>Tiny win:</strong> You can add your first horse and see it persist!</div>
+          <ol start="5">
+            <li>Save (<span class="kbd">Ctrl+S</span>)</li>
+          </ol>
+          <div class="tip"><strong>What this does:</strong> This creates input fields for Name, Age, and Breed, plus Cancel/Save buttons. <code>@bind-Value</code> automatically syncs the fields with the Horse object.</div>
+
+          <h3 style="margin-top:16px">Step 2: Update the Horses page to use the form</h3>
+          <p>Now let's add an "Add Horse" button and connect it to the form.</p>
+          <ol>
+            <li>Open <code>Pages/Horses.razor</code> (or <code>Components/Pages/Horses.razor</code>)</li>
+            <li>Right after the line <code>@inject AppDbContext Db</code>, add this new line:</li>
+          </ol>
+<pre><code class="language-razor">@inject IDialogService Dialog
+</code></pre>
+          <ol start="3">
+            <li>Find the line <code>&lt;MudStack Spacing="2"&gt;</code> near the top</li>
+            <li>Right after that line and before <code>&lt;MudText Typo="Typo.h5"&gt;</code>, add this button:</li>
+          </ol>
+<pre><code class="language-razor">  &lt;MudStack Row="true" Justify="Justify.FlexEnd"&gt;
+    &lt;MudButton Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" OnClick="ShowAddDialog"&gt;Add Horse&lt;/MudButton&gt;
+  &lt;/MudStack&gt;
+</code></pre>
+          <p style="margin-top:8px">Your top section should now look like:</p>
+<pre><code class="language-razor">&lt;MudStack Spacing="2"&gt;
+  &lt;MudStack Row="true" Justify="Justify.FlexEnd"&gt;
+    &lt;MudButton Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" OnClick="ShowAddDialog"&gt;Add Horse&lt;/MudButton&gt;
+  &lt;/MudStack&gt;
+
+  &lt;MudText Typo="Typo.h5"&gt;My Horses&lt;/MudText&gt;
+  &lt;!-- table continues here --&gt;
+</code></pre>
+          <ol start="5">
+            <li>Scroll down to the <code>@code {</code> section</li>
+            <li>Add this new variable right after <code>private List&lt;Horse&gt; _horses = new();</code>:</li>
+          </ol>
+<pre><code class="language-csharp">    private Horse _editing = new();
+</code></pre>
+          <ol start="7">
+            <li>Replace the empty <code>EditHorse</code> and <code>DeleteHorse</code> methods with this new <code>ShowAddDialog</code> method:</li>
+          </ol>
+<pre><code class="language-csharp">    async Task ShowAddDialog()
+    {
+        _editing = new Horse();
+        var parameters = new DialogParameters { [nameof(HorseForm.Model)] = _editing };
+        var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Small, FullWidth = true };
+        var dialog = Dialog.Show&lt;HorseForm&gt;("Add Horse", parameters, options);
+        var result = await dialog.Result;
+        if (!result.Canceled)
+        {
+            Db.Horses.Add(_editing);
+            Db.SaveChanges();
+            _horses = Db.Horses.OrderBy(h =&gt; h.Name).ToList();
+            StateHasChanged();
+        }
+    }
+
+    void EditHorse(Horse h) {}
+    void DeleteHorse(Horse h) {}
+</code></pre>
+          <ol start="8">
+            <li>Save (<span class="kbd">Ctrl+S</span>) and run (<span class="kbd">▶</span>)</li>
+            <li>Go to the Horses page and click <strong>Add Horse</strong></li>
+            <li>Fill in a horse's name, age, and breed</li>
+            <li>Click <strong>Save</strong></li>
+          </ol>
+
+          <div class="success"><strong>Tiny win:</strong> Your first horse appears in the table! Try adding a few more. Close the app and run it again—the horses are still there because they're saved in the database! 🎉</div>
+
+          <h3 style="margin-top:16px">Understanding what happened:</h3>
+          <ul>
+            <li><code>ShowAddDialog()</code> — Opens a popup window with the form</li>
+            <li><code>Dialog.Show&lt;HorseForm&gt;(...)</code> — Tells MudBlazor to display HorseForm as a dialog</li>
+            <li><code>if (!result.Canceled)</code> — Only saves if the user clicked Save (not Cancel)</li>
+            <li><code>Db.Horses.Add(_editing)</code> — Adds the new horse to the database</li>
+            <li><code>Db.SaveChanges()</code> — Actually writes the changes to the database file</li>
+            <li><code>StateHasChanged()</code> — Tells Blazor to refresh the table on screen</li>
+          </ul>
+
+          <details>
+            <summary>What's "async Task" and "await"?</summary>
+            <p><strong>Async/await</strong> lets your app do multiple things at once without freezing. When you show a dialog and <code>await dialog.Result</code>, your app waits for the user to click Save or Cancel, but doesn't freeze—users could switch browser tabs, etc. It's like saying "wait for this to finish, but don't block everything else."</p>
+          </details>
         </section>
 
         <!-- STEP 7 -->
         <section id="edit-delete" class="card">
           <div class="step"><div class="num">7</div><h2>Edit & delete horses</h2></div>
-          <p><span class="kicker">Goal:</span> Complete the CRUD.</p>
-          <ol>
-            <li>Add handlers back in <code>Pages/Horses.razor</code> to edit and delete:</li>
-          </ol>
-<pre><code class="language-razor">async Task EditHorse(Horse h)
-{
-  // open dialog with a copy, then save into DB if confirmed
-  _editing = new Horse { Id = h.Id, Name = h.Name, Age = h.Age, Breed = h.Breed };
-  var parameters = new DialogParameters { [nameof(HorseForm.Model)] = _editing };
-  var dialog = Dialog.Show&lt;HorseForm&gt;("Edit Horse", parameters);
-  var result = await dialog.Result;
-  if (!result.Canceled)
-  {
-    var entity = Db.Horses.Find(_editing.Id);
-    if (entity is not null)
-    {
-      entity.Name = _editing.Name;
-      entity.Age = _editing.Age;
-      entity.Breed = _editing.Breed;
-      Db.SaveChanges();
-      _horses = Db.Horses.OrderBy(x =&gt; x.Name).ToList();
-      StateHasChanged();
-    }
-  }
-}
+          <p><span class="kicker">Goal:</span> Make the Edit and Delete buttons actually work!</p>
 
-void DeleteHorse(Horse h)
+          <h3 style="margin-top:16px">Step 1: Implement the Edit function</h3>
+          <ol>
+            <li>Open <code>Pages/Horses.razor</code></li>
+            <li>Find the empty <code>void EditHorse(Horse h) {}</code> method</li>
+            <li>Replace it with this code:</li>
+          </ol>
+<pre><code class="language-csharp">async Task EditHorse(Horse h)
 {
-  Db.Horses.Remove(h);
-  Db.SaveChanges();
-  _horses = Db.Horses.OrderBy(x =&gt; x.Name).ToList();
+    // Create a copy so changes don't affect the original until Save is clicked
+    _editing = new Horse { Id = h.Id, Name = h.Name, Age = h.Age, Breed = h.Breed };
+    var parameters = new DialogParameters { [nameof(HorseForm.Model)] = _editing };
+    var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Small, FullWidth = true };
+    var dialog = Dialog.Show&lt;HorseForm&gt;("Edit Horse", parameters, options);
+    var result = await dialog.Result;
+
+    if (!result.Canceled)
+    {
+        // Find the actual horse in the database and update it
+        var entity = Db.Horses.Find(_editing.Id);
+        if (entity is not null)
+        {
+            entity.Name = _editing.Name;
+            entity.Age = _editing.Age;
+            entity.Breed = _editing.Breed;
+            Db.SaveChanges();
+            _horses = Db.Horses.OrderBy(x =&gt; x.Name).ToList();
+            StateHasChanged();
+        }
+    }
 }
 </code></pre>
-          <div class="success"><strong>Tiny win:</strong> You can update and remove horses. That’s the full CRUD!</div>
+
+          <h3 style="margin-top:16px">Step 2: Implement the Delete function</h3>
+          <p>Let's add a confirmation dialog so users don't accidentally delete horses.</p>
+          <ol>
+            <li>Find the empty <code>void DeleteHorse(Horse h) {}</code> method</li>
+            <li>Replace it with this code:</li>
+          </ol>
+<pre><code class="language-csharp">async Task DeleteHorse(Horse h)
+{
+    // Ask for confirmation before deleting
+    bool? result = await Dialog.ShowMessageBox(
+        "Delete Horse",
+        $"Are you sure you want to delete {h.Name}? This cannot be undone.",
+        yesText: "Delete",
+        cancelText: "Cancel");
+
+    if (result == true)
+    {
+        Db.Horses.Remove(h);
+        Db.SaveChanges();
+        _horses = Db.Horses.OrderBy(x =&gt; x.Name).ToList();
+        StateHasChanged();
+    }
+}
+</code></pre>
+          <ol start="3">
+            <li>Save (<span class="kbd">Ctrl+S</span>) and run (<span class="kbd">▶</span>)</li>
+            <li>Try editing a horse—the form should open with its current data</li>
+            <li>Try deleting a horse—you should get a confirmation dialog</li>
+          </ol>
+
+          <div class="success"><strong>Tiny win:</strong> You now have a fully functional CRUD app! You can <strong>C</strong>reate, <strong>R</strong>ead, <strong>U</strong>pdate, and <strong>D</strong>elete horses. This is the foundation of most business applications! 🎉</div>
+
+          <h3 style="margin-top:16px">Understanding the code:</h3>
+          <h4>Edit function:</h4>
+          <ul>
+            <li><code>_editing = new Horse { ... }</code> — Creates a temporary copy of the horse's data</li>
+            <li><strong>Why copy?</strong> So if the user clicks Cancel, the original stays unchanged</li>
+            <li><code>Db.Horses.Find(_editing.Id)</code> — Looks up the horse in the database by its ID</li>
+            <li><code>entity.Name = _editing.Name</code> — Updates the database horse with the edited values</li>
+          </ul>
+
+          <h4>Delete function:</h4>
+          <ul>
+            <li><code>Dialog.ShowMessageBox(...)</code> — Shows a yes/no confirmation dialog</li>
+            <li><code>if (result == true)</code> — Only deletes if user clicked "Delete" (not "Cancel")</li>
+            <li><code>Db.Horses.Remove(h)</code> — Removes the horse from the database</li>
+            <li><code>Db.SaveChanges()</code> — Permanently saves the deletion to the database file</li>
+          </ul>
+
+          <details>
+            <summary>What's CRUD and why does it matter?</summary>
+            <p><strong>CRUD</strong> stands for Create, Read, Update, Delete—the four basic operations for managing data. Almost every app you've ever used (social media, banking, shopping) is built on CRUD operations. By building this horse manager, you've learned the fundamental pattern used in professional software development!</p>
+          </details>
         </section>
 
         <!-- STEP 8 -->
@@ -440,6 +827,7 @@ void DeleteHorse(Horse h)
   private Horse? horse;
   protected override void OnInitialized() =&gt; horse = Db.Horses.Find(id);
 }
+</code></pre>
 
 @if (horse is null)
 {
