@@ -35,7 +35,9 @@
     .btn.secondary{background:transparent;border:2px solid var(--accent);color:var(--accent)}
     .grid{display:grid;gap:18px}
     @media(min-width:900px){.grid{grid-template-columns:260px 1fr}}
-    nav.toc{position:sticky;top:20px;align-self:start;background:#fff;border:1px solid #ffd6e8;border-radius:var(--radius);padding:16px;box-shadow:var(--shadow)}
+    nav.toc{background:#fff;border:1px solid #ffd6e8;border-radius:var(--radius);padding:16px;box-shadow:var(--shadow)}
+    @media(min-width:900px){nav.toc{position:sticky;top:20px;align-self:start}}
+    @media(max-width:899px){nav.toc{display:none}}
     nav.toc h3{margin:0 0 8px 0;font-size:1rem;color:#c2185b}
     nav.toc a{display:block;padding:6px 8px;border-radius:8px;color:#c2185b}
     nav.toc a:hover{background:#ffeaf3}
