@@ -253,19 +253,37 @@
             <li>Click on <code>MudBlazor</code> in the results</li>
             <li>Click the <strong>Install</strong> button on the right</li>
             <li>If a preview window appears, click <strong>OK</strong></li>
-            <li>Repeat steps 5-8 for <code>MudBlazor.Services</code> (search → select → install)</li>
           </ol>
 
-          <div class="tip" style="margin-top:8px"><strong>Prefer terminal?</strong> Open <em>View → Terminal</em> and run these commands one at a time:
-            <pre style="margin-top:8px"><code>dotnet add package MudBlazor
-dotnet add package MudBlazor.Services</code></pre>
-            Wait for each to finish before running the next one. You'll see "Successfully installed" when done.
+          <div class="tip" style="margin-top:8px"><strong>Prefer terminal?</strong> Open <em>View → Terminal</em> and run this command:
+            <pre style="margin-top:8px"><code>dotnet add package MudBlazor</code></pre>
+            You'll see "Successfully installed" when done.
           </div>
 
           <h3 style="margin-top:16px">Configuring MudBlazor in your code:</h3>
-          <p>Now you need to tell your app to actually <em>use</em> MudBlazor.</p>
+          <p>Now you need to tell your app to actually <em>use</em> MudBlazor. This involves three steps: adding CSS and JavaScript files, registering services, and adding components to your layout.</p>
 
-          <h4 style="margin-top:12px">Step A: Update Program.cs</h4>
+          <h4 style="margin-top:12px">Step A: Add CSS and JavaScript files</h4>
+          <ol>
+            <li>In Solution Explorer, expand the <strong>Pages</strong> folder</li>
+            <li>Double-click <code>_Host.cshtml</code> to open it</li>
+            <li>Inside the <code>&lt;head&gt;</code> section, you'll see some existing <code>&lt;link&gt;</code> tags. Add these two lines <strong>before</strong> the closing <code>&lt;/head&gt;</code> tag:</li>
+          </ol>
+<pre><code class="language-html">&lt;link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&amp;display=swap" rel="stylesheet" /&gt;
+&lt;link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" /&gt;
+</code></pre>
+          <ol start="4">
+            <li>Scroll down to the bottom of the file, just <strong>before</strong> <code>&lt;/body&gt;</code></li>
+            <li>You'll see <code>&lt;script src="_framework/blazor.server.js"&gt;&lt;/script&gt;</code>. Right <strong>after</strong> this line, add:</li>
+          </ol>
+<pre><code class="language-html">&lt;script src="_content/MudBlazor/MudBlazor.min.js"&gt;&lt;/script&gt;
+</code></pre>
+          <ol start="6">
+            <li>Save the file (<span class="kbd">Ctrl+S</span>)</li>
+          </ol>
+          <div class="tip"><strong>What are these files?</strong> The CSS file styles the MudBlazor components (colors, spacing, etc.). The JavaScript file adds interactive behaviors like dialogs and dropdowns.</div>
+
+          <h4 style="margin-top:12px">Step B: Update Program.cs</h4>
           <ol>
             <li>In Solution Explorer, find and double-click <code>Program.cs</code> (it's near the top, not in a folder)</li>
             <li>At the very top, you'll see lines starting with <code>using</code>. Add this line with the others:</li>
@@ -291,8 +309,9 @@ var app = builder.Build();
           <ol start="5">
             <li>Save the file (<span class="kbd">Ctrl+S</span>)</li>
           </ol>
+          <div class="tip"><strong>What does this do?</strong> <code>AddMudServices()</code> registers all MudBlazor services with your app, making dialogs, snackbars, and other features available.</div>
 
-          <h4 style="margin-top:12px">Step B: Update the layout</h4>
+          <h4 style="margin-top:12px">Step C: Update the layout</h4>
           <ol>
             <li>In Solution Explorer, expand the <strong>Components</strong> folder (or <strong>Shared</strong> if you don't see Components)</li>
             <li>Double-click <code>MainLayout.razor</code></li>
@@ -303,6 +322,7 @@ var app = builder.Build();
 @inherits LayoutComponentBase
 
 &lt;MudThemeProvider /&gt;
+&lt;MudPopoverProvider /&gt;
 &lt;MudDialogProvider /&gt;
 &lt;MudSnackbarProvider /&gt;
 
@@ -323,9 +343,18 @@ var app = builder.Build();
 
           <div class="success"><strong>Tiny win:</strong> Your app now has a sleek purple header bar and looks much more polished! 🎨</div>
 
+          <div class="note" style="margin-top:8px"><strong>Optional cleanup:</strong> The template includes Bootstrap CSS files in <code>wwwroot/css</code>. MudBlazor has its own styling, so Bootstrap isn't needed. You can delete the <code>wwwroot</code> folder to clean up, but it's not required—the styles won't conflict significantly.</div>
+
           <details>
             <summary>What did this code do?</summary>
-            <p><code>MainLayout.razor</code> is a wrapper that appears on every page. <code>MudLayout</code> and <code>MudAppBar</code> are MudBlazor components that create the header and structure. The <code>@Body</code> is where your individual pages (like Index.razor) get inserted.</p>
+            <p><code>MainLayout.razor</code> is a wrapper that appears on every page. The four providers at the top enable MudBlazor features:</p>
+            <ul>
+              <li><code>MudThemeProvider</code> — Handles colors and styling</li>
+              <li><code>MudPopoverProvider</code> — Enables tooltips and dropdown menus</li>
+              <li><code>MudDialogProvider</code> — Enables popup dialogs (you'll use this later!)</li>
+              <li><code>MudSnackbarProvider</code> — Enables toast notifications</li>
+            </ul>
+            <p><code>MudLayout</code> and <code>MudAppBar</code> create the header and structure. The <code>@Body</code> is where your individual pages (like Index.razor) get inserted.</p>
           </details>
         </section>
 
@@ -636,7 +665,7 @@ var app = builder.Build();
 &lt;/EditForm&gt;
 
 @code {
-  [CascadingParameter] MudDialogInstance? MudDialog { get; set; }
+  [CascadingParameter] IMudDialogInstance? MudDialog { get; set; }
   [Parameter] public Horse Model { get; set; } = new();
 }
 </code></pre>
@@ -644,6 +673,7 @@ var app = builder.Build();
             <li>Save (<span class="kbd">Ctrl+S</span>)</li>
           </ol>
           <div class="tip"><strong>What this does:</strong> This creates input fields for Name, Age, and Breed, plus Cancel/Save buttons. <code>@bind-Value</code> automatically syncs the fields with the Horse object.</div>
+          <div class="note" style="margin-top:8px"><strong>Important:</strong> The type is <code>IMudDialogInstance</code> (with an "I" at the start). In older MudBlazor versions it was <code>MudDialogInstance</code> without the "I", but that changed in MudBlazor 7+.</div>
 
           <h3 style="margin-top:16px">Step 2: Update the Horses page to use the form</h3>
           <p>Now let's add an "Add Horse" button and connect it to the form.</p>
@@ -884,6 +914,8 @@ else
         <section class="card">
           <h2>Common hiccups (and quick fixes)</h2>
           <ul>
+            <li><span style="color:var(--danger);font-weight:600">Error:</span> <code>MudDialogInstance</code> not found → Make sure you're using <code>IMudDialogInstance</code> (with an "I" at the start) in HorseForm.razor. The API changed in MudBlazor 7+.</li>
+            <li><span style="color:var(--danger);font-weight:600">Error:</span> <code>MudBlazor.Services</code> package not found → Skip this package! In MudBlazor 7+, you only need the main <code>MudBlazor</code> package. The services are included automatically.</li>
             <li><span style="color:var(--danger);font-weight:600">Error:</span> EF command not found → Install the tool: <code>dotnet tool install --global dotnet-ef</code></li>
             <li><span style="color:var(--danger);font-weight:600">Error:</span> Build failure after adding packages → Try <code>dotnet restore</code> then rebuild.</li>
             <li><span style="color:var(--danger);font-weight:600">Table empty?</span> → Add a horse using the dialog, then it appears in the list.</li>
