@@ -327,21 +327,54 @@ var app = builder.Build();
 &lt;MudSnackbarProvider /&gt;
 
 &lt;MudLayout&gt;
-    &lt;MudAppBar Color="Color.Primary" Elevation="0" Dense="true"&gt;
-        &lt;MudText Typo="Typo.h6"&gt;Horse Manager&lt;/MudText&gt;
+    &lt;MudAppBar Color="Color.Primary" Elevation="0"&gt;
+        &lt;MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) =&gt; DrawerToggle())" /&gt;
+        &lt;MudText Typo="Typo.h6"&gt;🐴 Horse Manager&lt;/MudText&gt;
     &lt;/MudAppBar&gt;
-
-    &lt;MudMainContent Class="pa-6"&gt;
-        @Body
+    &lt;MudDrawer @bind-Open="@_drawerOpen" ClipMode="DrawerClipMode.Always"&gt;
+        &lt;NavMenu /&gt;
+    &lt;/MudDrawer&gt;
+    &lt;MudMainContent&gt;
+        &lt;MudContainer MaxWidth="MaxWidth.Large" Class="my-4"&gt;
+            @Body
+        &lt;/MudContainer&gt;
     &lt;/MudMainContent&gt;
 &lt;/MudLayout&gt;
+
+@code {
+    bool _drawerOpen = false;
+
+    void DrawerToggle()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
+}
+</code></pre>
+          <ol start="5">
+            <li>Save (<span class="kbd">Ctrl+S</span>)</li>
+          </ol>
+
+          <h4 style="margin-top:12px">Step D: Create the navigation menu</h4>
+          <p>Now let's add a menu to navigate between pages.</p>
+          <ol>
+            <li>In Solution Explorer, find the <strong>Shared</strong> folder (or <strong>Components</strong> folder)</li>
+            <li>You'll see a file called <code>NavMenu.razor</code> — double-click to open it</li>
+            <li><strong>Select all</strong> (<span class="kbd">Ctrl+A</span>) and <strong>delete</strong> the old code</li>
+            <li>Paste this new code:</li>
+          </ol>
+<pre><code class="language-razor">@using MudBlazor
+
+&lt;MudNavMenu&gt;
+    &lt;MudNavLink Href="/" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home"&gt;Home&lt;/MudNavLink&gt;
+    &lt;MudNavLink Href="/horses" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Pets"&gt;Horses&lt;/MudNavLink&gt;
+&lt;/MudNavMenu&gt;
 </code></pre>
           <ol start="5">
             <li>Save (<span class="kbd">Ctrl+S</span>)</li>
             <li>Run the app (<span class="kbd">▶</span>)</li>
           </ol>
 
-          <div class="success"><strong>Tiny win:</strong> Your app now has a sleek purple header bar and looks much more polished! 🎨</div>
+          <div class="success"><strong>Tiny win:</strong> Your app now has a navigation menu! Click the hamburger menu icon (☰) in the top-left to open the drawer. You can click Home to go to the homepage, and soon you'll click Horses to see your horse list! 🎉</div>
 
           <div class="note" style="margin-top:8px"><strong>Optional cleanup:</strong> The template includes Bootstrap CSS files in <code>wwwroot/css</code>. MudBlazor has its own styling, so Bootstrap isn't needed. You can delete the <code>wwwroot</code> folder to clean up, but it's not required—the styles won't conflict significantly.</div>
 
@@ -354,7 +387,8 @@ var app = builder.Build();
               <li><code>MudDialogProvider</code> — Enables popup dialogs (you'll use this later!)</li>
               <li><code>MudSnackbarProvider</code> — Enables toast notifications</li>
             </ul>
-            <p><code>MudLayout</code> and <code>MudAppBar</code> create the header and structure. The <code>@Body</code> is where your individual pages (like Index.razor) get inserted.</p>
+            <p><code>MudLayout</code> creates the overall page structure. <code>MudAppBar</code> is the purple header bar with a hamburger menu button. <code>MudIconButton</code> is the clickable menu icon that toggles the drawer. <code>MudDrawer</code> is the slide-out side panel that contains your navigation menu. <code>@bind-Open</code> connects the drawer's open/closed state to the <code>_drawerOpen</code> variable (starts as <code>false</code>, so the drawer is hidden by default). <code>ClipMode="DrawerClipMode.Always"</code> makes the drawer appear <em>below</em> the AppBar instead of covering it. <code>MudContainer</code> centers your content and limits its width for better readability. The <code>@code</code> section contains C# code that runs when the menu button is clicked.</p>
+            <p><code>MudNavMenu</code> creates a styled navigation menu. <code>MudNavLink</code> creates clickable links with icons. <code>Match="NavLinkMatch.All"</code> highlights the link only for exact matches, while <code>Match="NavLinkMatch.Prefix"</code> highlights for any URL starting with that path.</p>
           </details>
         </section>
 
@@ -652,27 +686,30 @@ var app = builder.Build();
 <pre><code class="language-razor">@using HorseManager.Models
 @using MudBlazor
 
-&lt;EditForm Model="Model"&gt;
-  &lt;MudStack Spacing="2"&gt;
-    &lt;MudTextField @bind-Value="Model.Name" Label="Name" Required="true"/&gt;
-    &lt;MudNumericField @bind-Value="Model.Age" Label="Age" Min="0" Max="50"/&gt;
-    &lt;MudTextField @bind-Value="Model.Breed" Label="Breed"/&gt;
-    &lt;MudStack Row="true" Justify="Justify.FlexEnd" Spacing="1"&gt;
-      &lt;MudButton OnClick="() =&gt; MudDialog?.Cancel()" Variant="Variant.Text"&gt;Cancel&lt;/MudButton&gt;
-      &lt;MudButton OnClick="() =&gt; MudDialog?.Close(DialogResult.Ok(true))" Color="Color.Primary"&gt;Save&lt;/MudButton&gt;
-    &lt;/MudStack&gt;
-  &lt;/MudStack&gt;
-&lt;/EditForm&gt;
+&lt;MudDialog&gt;
+    &lt;DialogContent&gt;
+        &lt;MudTextField @bind-Value="Model.Name" Label="Name" Required="true" Class="mb-3"/&gt;
+        &lt;MudNumericField @bind-Value="Model.Age" Label="Age" Min="0" Max="50" Class="mb-3"/&gt;
+        &lt;MudTextField @bind-Value="Model.Breed" Label="Breed"/&gt;
+    &lt;/DialogContent&gt;
+    &lt;DialogActions&gt;
+        &lt;MudButton OnClick="Cancel" Variant="Variant.Text"&gt;Cancel&lt;/MudButton&gt;
+        &lt;MudButton OnClick="Save" Color="Color.Primary" Variant="Variant.Filled"&gt;Save&lt;/MudButton&gt;
+    &lt;/DialogActions&gt;
+&lt;/MudDialog&gt;
 
 @code {
   [CascadingParameter] IMudDialogInstance? MudDialog { get; set; }
   [Parameter] public Horse Model { get; set; } = new();
+
+  void Cancel() =&gt; MudDialog?.Cancel();
+  void Save() =&gt; MudDialog?.Close(DialogResult.Ok(true));
 }
 </code></pre>
           <ol start="5">
             <li>Save (<span class="kbd">Ctrl+S</span>)</li>
           </ol>
-          <div class="tip"><strong>What this does:</strong> This creates input fields for Name, Age, and Breed, plus Cancel/Save buttons. <code>@bind-Value</code> automatically syncs the fields with the Horse object.</div>
+          <div class="tip"><strong>What this does:</strong> <code>MudDialog</code> is the container for dialog content. <code>DialogContent</code> holds the form fields with proper padding. <code>DialogActions</code> creates a button bar at the bottom. <code>Class="mb-3"</code> adds spacing between fields. <code>@bind-Value</code> automatically syncs the fields with the Horse object. The <code>Cancel()</code> and <code>Save()</code> methods are cleaner than inline lambdas.</div>
           <div class="note" style="margin-top:8px"><strong>Important:</strong> The type is <code>IMudDialogInstance</code> (with an "I" at the start). In older MudBlazor versions it was <code>MudDialogInstance</code> without the "I", but that changed in MudBlazor 7+.</div>
 
           <h3 style="margin-top:16px">Step 2: Update the Horses page to use the form</h3>
